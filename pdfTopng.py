@@ -18,7 +18,7 @@ def convert_pdf(output_dir, page_num, pdf_path, progress_var):
         images = convert_from_path(pdf_path, first_page=page_num + 1, last_page=page_num + 1)
 
         # Construct the output file path with the 'Downloads' folder
-        output_file_path = os.path.join(output_dir, f'output_page_{page_num + 1}.png')
+        output_file_path = os.path.join(output_dir, f'{pdf_path.split(".")[0]}_page_{page_num + 1}.png')
 
         # Save the image to the specified path
         images[0].save(output_file_path, 'PNG')
