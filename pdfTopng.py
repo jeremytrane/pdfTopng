@@ -12,7 +12,7 @@ def get_pdf_page_count(pdf_path):
         print(f"Number of pages in the pdf: {len(pdf.pages)}")
         return len(pdf.pages)
 
-def convert_pdf():
+def convert_pdf(output_dir):
     if not pdf_file_path.get():
         messagebox.showerror("Error", "No PDF file provided!")
         return
@@ -36,11 +36,7 @@ def convert_pdf():
 
     images = convert_from_path(path)
 
-    # Specify the directory to save the converted images
-    output_dir = 'Downloads'
-    os.makedirs(output_dir, exist_ok=True)  # Create the directory if it doesn't exist
-
-    # Construct the output file path
+    # Construct the output file path with the 'Downloads' folder
     output_file_path = os.path.join(output_dir, f'output_page_{page_num + 1}.png')
 
     # Save the image to the specified path
@@ -55,10 +51,17 @@ def select_pdf():
         print(f"Selected file: {file_path}")
         selected_file_label.config(text=file_path.split("/")[-1])
 
+def select_output_directory():
+    global output_dir
+    output_dir = filedialog.askdirectory()
+    if output_dir:
+        output_dir_label.config(text=output_dir)
+
 root = tk.Tk()
 root.title("PDF to PNG Converter")
 
 pdf_file_path = tk.StringVar()
+output_dir = ""
 
 btn_select = tk.Button(root, text="Select PDF", command=select_pdf)
 btn_select.pack(pady=10)
@@ -73,7 +76,14 @@ page_number_label.pack(pady=5)
 page_number_entry = tk.Entry(root)
 page_number_entry.pack(pady=5)
 
-btn_convert = tk.Button(root, text="Convert", command=convert_pdf)
+btn_select_output_dir = tk.Button(root, text="Select Output Directory", command=select_output_directory)
+btn_select_output_dir.pack(pady=10)
+
+# Add a label to display the selected output directory
+output_dir_label = tk.Label(root, text="", font=("Arial", 10))
+output_dir_label.pack(pady=5)
+
+btn_convert = tk.Button(root, text="Convert", command=lambda: convert_pdf(output_dir))
 btn_convert.pack(pady=20)
 
 root.mainloop()
