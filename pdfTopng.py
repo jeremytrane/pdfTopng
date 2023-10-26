@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox, filedialog
 from pdf2image import convert_from_path
 import PyPDF2
+import os
 
 def get_pdf_page_count(pdf_path):
     """Return the number of pages in the given PDF."""
@@ -35,11 +36,17 @@ def convert_pdf():
 
     images = convert_from_path(path)
 
-    # Only convert the specified page number
-    images[page_num].save(f'Downloads/output_page_{page_num + 1}.png', 'PNG')
+    # Specify the directory to save the converted images
+    output_dir = 'Downloads'
+    os.makedirs(output_dir, exist_ok=True)  # Create the directory if it doesn't exist
+
+    # Construct the output file path
+    output_file_path = os.path.join(output_dir, f'output_page_{page_num + 1}.png')
+
+    # Save the image to the specified path
+    images[page_num].save(output_file_path, 'PNG')
     
     messagebox.showinfo("Info", "Conversion Complete!")
-
 
 def select_pdf():
     file_path = filedialog.askopenfilename(filetypes=[("PDF files", "*.pdf")])
