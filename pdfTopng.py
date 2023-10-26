@@ -86,4 +86,6 @@ output_dir_label.pack(pady=5)
 btn_convert = tk.Button(root, text="Convert", command=lambda: convert_pdf(output_dir))
 btn_convert.pack(pady=20)
 
+root.geometry("300x300")
+
 root.mainloop()
