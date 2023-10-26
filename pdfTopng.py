@@ -98,10 +98,6 @@ output_dir_label.pack(pady=5)
 btn_convert = tk.Button(root, text="Convert", command=start_conversion)
 btn_convert.pack(pady=20)
 
-# Add a progress bar to show conversion progress
-progress_bar = ttk.Progressbar(root, variable=progress_var, maximum=100)
-progress_bar.pack(fill=tk.X, padx=10, pady=10)
-
-root.geometry("600x400")  # Set the window width and height
+root.geometry("600x400")
 
 root.mainloop()
