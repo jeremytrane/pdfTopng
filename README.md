@@ -18,7 +18,7 @@ Before you begin, ensure you have the following installed:
 1. **Clone this repository**:
    
    ```bash
-   git clone https://github.com/your-username/pdf-to-png-converter.git
+   git clone https://github.com/jeremytrane/pdfTopng.git
 
 2. **Navigate to the cloned directory**:
 
