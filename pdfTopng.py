@@ -2,6 +2,14 @@ import sys
 import tkinter as tk
 from tkinter import messagebox, filedialog
 from pdf2image import convert_from_path
+import PyPDF2
+
+def get_pdf_page_count(pdf_path):
+    """Return the number of pages in the given PDF."""
+    with open(pdf_path, 'rb') as f:
+        pdf = PyPDF2.PdfReader(f)
+        print(f"Number of pages in the pdf: {len(pdf.pages)}")
+        return len(pdf.pages)
 
 def convert_pdf():
     if not pdf_file_path.get():
@@ -11,23 +19,27 @@ def convert_pdf():
     # Fetch the user input page number
     try:
         page_num = int(page_number_entry.get()) - 1
+        print(f"Page to convert: {page_num + 1}")
     except ValueError:
         messagebox.showerror("Error", "Invalid page number!")
         return
 
     path = pdf_file_path.get()
     print(f"Path to convert: {path}")
-    images = convert_from_path(path)
     
     # Check if the provided page number is within the range
-    if page_num < 0 or page_num >= len(images):
-        messagebox.showerror("Error", "Page number out of range!")
+    total_pages = get_pdf_page_count(path)
+    if page_num < 0 or page_num >= total_pages:
+        messagebox.showerror("Error", f"Page number out of range! PDF has {total_pages} pages.")
         return
+
+    images = convert_from_path(path)
 
     # Only convert the specified page number
     images[page_num].save(f'Downloads/output_page_{page_num + 1}.png', 'PNG')
     
     messagebox.showinfo("Info", "Conversion Complete!")
+
 
 def select_pdf():
     file_path = filedialog.askopenfilename(filetypes=[("PDF files", "*.pdf")])
